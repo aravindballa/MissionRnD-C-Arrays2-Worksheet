@@ -15,6 +15,7 @@ NOTES:
 */
 
 #include <iostream>
+#include <malloc.h>
 
 struct transaction {
 	int amount;
@@ -22,6 +23,39 @@ struct transaction {
 	char description[20];
 };
 
+int Compare(char *date1, char *date2)
+{
+	int i;
+
+	for (i = 0; i <= 9; i++)
+	{
+		if (date1[i] != date2[i])
+			return 0;
+	}
+
+	return 1;
+}
+
 struct transaction * sortedArraysCommonElements(struct transaction *A, int ALen, struct transaction *B, int BLen) {
-	return NULL;
+	int i, j, k = 0;
+	if (A == NULL || ALen < 1 || B == NULL || BLen < 1)
+		return NULL;
+
+	struct transaction *output = (struct transaction*)malloc(sizeof(struct transaction)*3);
+
+	for(i = 0; i < ALen; i++)
+	{
+		for (j = 0; j < BLen; j++)
+		{
+			if (Compare(A[i].date, B[j].date) == 1)
+			{
+				output[k++] = B[j];
+			}
+		}
+	}
+
+	if (k == 0)
+		return NULL;
+
+	return output;
 }
