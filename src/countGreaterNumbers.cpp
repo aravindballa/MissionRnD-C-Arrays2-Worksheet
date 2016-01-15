@@ -20,6 +20,44 @@ struct transaction {
 	char description[20];
 };
 
+int IsGreater(char *date1, char *date2)
+{
+	int i;
+
+	for (i = 6; i <= 9; i++)
+	{
+		if (date1[i] > date2[i]) return 2;
+		else if (date1[i] < date2[i]) return 1;
+		else {}
+	}
+
+	for (i = 3; i <= 4; i++)
+	{
+		if (date1[i] > date2[i]) return 2;
+		else if (date1[i] < date2[i]) return 1;
+		else {}
+	}
+
+	for (i = 0; i <= 1; i++)
+	{
+		if (date1[i] > date2[i]) return 2;
+		else if (date1[i] < date2[i]) return 1;
+		else {}
+	}
+
+	return 0;
+}
+
 int countGreaterNumbers(struct transaction *Arr, int len, char *date) {
-	return -1;
+	int i, count = 0;
+	if (len <= 0 || !date || !Arr)
+		return -1;
+
+	for (i = 0; i < len; i++)
+	{
+		if (IsGreater(Arr[i].date, date) == 2)
+			count++;
+	}
+
+	return count;
 }
