@@ -21,6 +21,66 @@ struct transaction {
 	char description[20];
 };
 
+int IsSmaller(char *date1, char *date2)
+{
+	int i;
+
+	for (i = 6; i <= 9; i++)
+	{
+		if (date1[i] > date2[i]) return 2;
+		else if (date1[i] < date2[i]) return 1;
+		else {}
+	}
+
+	for (i = 3; i <= 4; i++)
+	{
+		if (date1[i] > date2[i]) return 2;
+		else if (date1[i] < date2[i]) return 1;
+		else {}
+	}
+
+	for (i = 0; i <= 1; i++)
+	{
+		if (date1[i] > date2[i]) return 2;
+		else if (date1[i] < date2[i]) return 1;
+		else {}
+	}
+
+	return 0;
+}
+
 struct transaction * mergeSortedArrays(struct transaction *A, int ALen, struct transaction *B, int BLen) {
-	return NULL;
+	int i = 0, j = 0, k = 0;
+	if (A == NULL || ALen < 1 || B == NULL || BLen < 1)
+		return NULL;
+	struct transaction *output = (struct transaction*)malloc(sizeof(struct transaction) * (ALen + BLen));
+
+	while (i < ALen && j < BLen)
+	{
+		if (IsSmaller(A[i].date, B[j].date) == 1)
+		{
+			output[k++] = A[i];
+			i++;
+		}
+		else if (IsSmaller(A[i].date, B[j].date) == 2)
+		{
+			output[k++] = B[j];
+			j++;
+		}
+		else
+		{
+			output[k++] = B[j];
+			output[k++] = B[j];
+			j++; i++;
+		}
+	}
+
+	if (j>=BLen)
+		for (; i < ALen; i++)
+			output[k++] = A[i];
+	if (i>=ALen)
+		for (; j < BLen; j++)
+			output[k++] = B[j];
+
+	return output;
 }
